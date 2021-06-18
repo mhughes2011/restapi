@@ -13,7 +13,7 @@ app.get('/quotes', async (req, res) => {
     }catch(err) {
         res.json({message: err.message});
     }
-});
+})
 
 //Send a GET request to /quotes/:id READ (View) a quote
 app.get('/quotes/:id', async (req, res) => {
@@ -27,7 +27,7 @@ app.get('/quotes/:id', async (req, res) => {
     }catch(err) {
         res.status(500).json({message: err.message});
     }
-});
+})
 
 //Send a POST request to /quotes CREATE a new quote
 app.post('/quotes', async (req, res) => {
@@ -44,7 +44,7 @@ app.post('/quotes', async (req, res) => {
     }catch(err) {
         res.status(500).json({message: err.message});
     }
-});
+})
 
 //Send a PUT request to /quotes/:id UPDATE (edit) a quote
 app.put('/quotes/:id', async(req, res) => {
@@ -64,6 +64,20 @@ app.put('/quotes/:id', async(req, res) => {
 })
 
 //Send a DELETE request to /quotes/:id DELETE a quote
+app.delete('/quotes/:id', async(req, res) => {
+    try {
+        const quote = await records.getQuote(req.params.id);
+        if(quote) {
+            await records.deleteQuote(quote);
+            res.status(204).end();
+        } else {
+            res.status(404).json({message: 'Quote not found'});
+        }
+    } catch (err) {
+        res.status(500).json({message: err.message});
+    }
+})
+
 //Send a GET request to /quotes/quote/random READ (View) a random quote
 
 
